@@ -1,0 +1,232 @@
+@import "tailwindcss";
+
+@theme {
+  --color-primary: #0284C7;
+  --color-primary-light: #38BDF8;
+  --color-primary-dark: #0369A1;
+  --color-accent: #34D399;
+  --color-surface: #F0F9FF;
+  --color-surface-light: #E0F2FE;
+  --color-surface-lighter: #BAE6FD;
+  --color-risk-low: #22C55E;
+  --color-risk-medium: #F59E0B;
+  --color-risk-high: #EF4444;
+  --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: #F0F9FF;
+  color: #0C4A6E;
+}
+
+/* ─── Ocean gradient text ─────────────────────────────────────────────── */
+.gradient-text {
+  background: linear-gradient(135deg, #0284C7, #0EA5E9, #06B6D4);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ─── Glass card ──────────────────────────────────────────────────────── */
+.glass-card {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(186, 230, 253, 0.5);
+  border-radius: 16px;
+  transition: all 0.3s ease;
+}
+
+.glass-card:hover {
+  border-color: rgba(56, 189, 248, 0.4);
+  box-shadow: 0 4px 30px rgba(14, 165, 233, 0.08);
+}
+
+/* ─── Glow button ─────────────────────────────────────────────────────── */
+.glow-btn {
+  position: relative;
+  background: linear-gradient(135deg, #0284C7, #0EA5E9);
+  border-radius: 12px;
+  padding: 12px 28px;
+  color: white;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.glow-btn::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  background: linear-gradient(135deg, #38BDF8, #06B6D4, #0EA5E9);
+  border-radius: 14px;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.glow-btn:hover::before {
+  opacity: 1;
+}
+
+.glow-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 40px rgba(14, 165, 233, 0.25);
+}
+
+.glow-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
+}
+
+/* ─── Spinner ─────────────────────────────────────────────────────────── */
+.spinner {
+  border: 3px solid rgba(186, 230, 253, 0.4);
+  border-top: 3px solid #0EA5E9;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* ─── Heartbeat animation ─────────────────────────────────────────────── */
+@keyframes heartbeat {
+
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  14% {
+    transform: scale(1.15);
+  }
+
+  28% {
+    transform: scale(1);
+  }
+
+  42% {
+    transform: scale(1.1);
+  }
+
+  56% {
+    transform: scale(1);
+  }
+}
+
+.animate-heartbeat {
+  animation: heartbeat 2s ease-in-out infinite;
+}
+
+/* ─── Pulse glow ──────────────────────────────────────────────────────── */
+@keyframes pulse-glow {
+
+  0%,
+  100% {
+    box-shadow: 0 0 20px rgba(14, 165, 233, 0.08);
+  }
+
+  50% {
+    box-shadow: 0 0 40px rgba(14, 165, 233, 0.18);
+  }
+}
+
+.animate-pulse-glow {
+  animation: pulse-glow 3s ease-in-out infinite;
+}
+
+/* ─── Float animation ─────────────────────────────────────────────────── */
+@keyframes float {
+
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+
+  50% {
+    transform: translateY(-12px);
+  }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-float-delayed {
+  animation: float 4s ease-in-out 1s infinite;
+}
+
+.animate-float-slow {
+  animation: float 6s ease-in-out 0.5s infinite;
+}
+
+/* ─── ECG line animation ──────────────────────────────────────────────── */
+@keyframes ecg-line {
+  0% {
+    stroke-dashoffset: 600;
+  }
+
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+.animate-ecg {
+  stroke-dasharray: 600;
+  stroke-dashoffset: 600;
+  animation: ecg-line 3s linear infinite;
+}
+
+/* ─── Medical cross pulse ─────────────────────────────────────────────── */
+@keyframes cross-pulse {
+
+  0%,
+  100% {
+    opacity: 0.2;
+    transform: scale(0.95);
+  }
+
+  50% {
+    opacity: 0.45;
+    transform: scale(1.05);
+  }
+}
+
+.animate-cross-pulse {
+  animation: cross-pulse 4s ease-in-out infinite;
+}
+
+/* ─── Scrollbar ───────────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F0F9FF;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #BAE6FD;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #7DD3FC;
+}
+
+/* ─── Stat card animation ─────────────────────────────────────────────── */
+.stat-card {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.stat-card:hover {
+  transform: translateY(-4px);
+}
