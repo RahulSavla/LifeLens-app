@@ -1,6 +1,8 @@
 "use client";
 
 import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Network, ZoomIn, ZoomOut } from "lucide-react";
 
 interface TreeNode {
     type: "decision" | "leaf";
@@ -28,137 +30,165 @@ function NodeCard({ node, depth }: { node: TreeNode; depth: number }) {
     if (node.type === "leaf") {
         const isDisease = node.class === 1;
         return (
-            <div className="flex flex-col items-center">
+            <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="flex flex-col items-center"
+            >
                 <div
-                    className={`rounded-xl px-4 py-3 border text-center min-w-[120px] shadow-lg ${isDisease
-                        ? "bg-red-500/15 border-red-500/40 shadow-red-500/10"
-                        : "bg-emerald-500/15 border-emerald-500/40 shadow-emerald-500/10"
+                    className={`rounded-2xl px-5 py-4 border shadow-sm min-w-[140px] text-center transition-all hover:shadow-md ${isDisease
+                        ? "bg-rose-50 border-rose-200 shadow-rose-100"
+                        : "bg-emerald-50 border-emerald-200 shadow-emerald-100"
                         }`}
                 >
                     <div
-                        className={`text-xs font-semibold mb-1 ${isDisease ? "text-red-400" : "text-emerald-400"
+                        className={`text-sm font-bold mb-1.5 flex flex-col items-center justify-center ${isDisease ? "text-rose-600" : "text-emerald-600"
                             }`}
                     >
-                        {isDisease ? "⚠ Disease" : "✓ Healthy"}
+                        {isDisease ? "⚠ Disease Risk" : "✓ Healthy Profile"}
                     </div>
-                    <div className="text-[10px] text-slate-400">
-                        {node.samples} samples
+                    <div className="text-[11px] font-medium text-slate-500 mb-2">
+                        Supporting Evidence: {node.samples}
                     </div>
                     {/* Mini bar */}
-                    <div className="mt-1.5 h-1.5 rounded-full bg-slate-700 overflow-hidden flex">
+                    <div className="mt-2 h-2 rounded-full bg-slate-200 flex shadow-inner overflow-hidden">
                         <div
-                            className="h-full bg-emerald-500 transition-all"
+                            className="h-full bg-emerald-500 transition-all duration-500"
                             style={{ width: `${ratio0 * 100}%` }}
+                            title={`Healthy: ${(ratio0 * 100).toFixed(1)}%`}
                         />
                         <div
-                            className="h-full bg-red-500 transition-all"
+                            className="h-full bg-rose-500 transition-all duration-500"
                             style={{ width: `${ratio1 * 100}%` }}
+                            title={`Disease: ${(ratio1 * 100).toFixed(1)}%`}
                         />
                     </div>
                 </div>
-            </div>
+            </motion.div>
         );
     }
 
     return (
-        <div className="flex flex-col items-center">
+        <div className="flex flex-col items-center relative z-10">
             {/* Decision node card */}
-            <button
+            <motion.button
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
                 onClick={() => hasChildren && setExpanded(!expanded)}
-                className="rounded-xl px-4 py-3 border border-slate-600/50 bg-slate-800/60 backdrop-blur
-                           text-center min-w-[140px] shadow-lg shadow-slate-900/30
-                           hover:border-teal-500/40 transition-all cursor-pointer group"
+                className="rounded-2xl px-5 py-4 border bg-white border-sky-100 
+                           text-center min-w-[170px] shadow-sm shadow-sky-100
+                           hover:border-medical-blue hover:shadow-md transition-all cursor-pointer group"
             >
-                <div className="text-xs font-bold text-teal-400 mb-0.5 group-hover:text-teal-300 transition-colors">
+                <div className="text-xs font-bold text-sky-600 mb-1 tracking-wide uppercase group-hover:text-medical-blue transition-colors">
                     {node.feature?.replace(/_/g, " ")}
                 </div>
-                <div className="text-[11px] text-slate-300">
-                    ≤ {node.threshold}
+                <div className="text-[14px] font-black text-slate-800 mb-1">
+                    ≤ {node.threshold?.toFixed(2) || String(node.threshold)}
                 </div>
-                <div className="text-[10px] text-slate-500 mt-1">
-                    {node.samples} samples
+                <div className="text-[11px] text-slate-500 font-medium">
+                    Evaluated Cases: {node.samples}
                 </div>
                 {/* Mini distribution bar */}
-                <div className="mt-1.5 h-1.5 rounded-full bg-slate-700 overflow-hidden flex">
+                <div className="mt-2 h-2 rounded-full bg-slate-100 overflow-hidden flex shadow-inner border border-slate-200/50">
                     <div
-                        className="h-full bg-emerald-500 transition-all"
+                        className="h-full bg-emerald-400 transition-all duration-500"
                         style={{ width: `${ratio0 * 100}%` }}
                     />
                     <div
-                        className="h-full bg-red-500 transition-all"
+                        className="h-full bg-rose-400 transition-all duration-500"
                         style={{ width: `${ratio1 * 100}%` }}
                     />
                 </div>
                 {hasChildren && (
-                    <div className="text-[10px] text-slate-600 mt-1.5">
-                        {expanded ? "▼ collapse" : "▶ expand"}
+                    <div className="text-[10px] uppercase tracking-wider font-bold text-slate-400 mt-3 flex items-center justify-center gap-1 group-hover:text-medical-blue transition-colors">
+                        {expanded ? <><ZoomOut className="w-3 h-3" /> Collapse</> : <><ZoomIn className="w-3 h-3" /> Expand</>}
                     </div>
                 )}
-            </button>
+            </motion.button>
 
             {/* Children */}
-            {hasChildren && expanded && (
-                <div className="flex flex-col items-center mt-0">
-                    {/* Vertical line from parent */}
-                    <div className="w-px h-5 bg-slate-600/50" />
+            <AnimatePresence>
+                {hasChildren && expanded && (
+                    <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: 'auto' }}
+                        exit={{ opacity: 0, height: 0 }}
+                        className="flex flex-col items-center mt-0 overflow-hidden"
+                    >
+                        {/* Vertical line from parent */}
+                        <div className="w-0.5 h-6 bg-slate-300" />
 
-                    {/* Horizontal connector + branch labels */}
-                    <div className="flex items-start">
-                        {/* Left branch */}
-                        <div className="flex flex-col items-center">
-                            <div className="text-[9px] text-cyan-500/70 font-medium mb-0.5">
-                                Yes (≤)
+                        {/* Horizontal connector + branch labels */}
+                        <div className="flex items-start">
+                            {/* Left branch */}
+                            <div className="flex flex-col items-center relative">
+                                <div className="absolute -top-3 -left-8 bg-sky-50 px-2 py-0.5 rounded text-[10px] text-sky-700 font-bold border border-sky-100 tracking-wider shadow-sm z-20">
+                                    TRUE (≤)
+                                </div>
+                                <div className="flex items-start">
+                                    <div className="w-20 border-t-2 border-slate-300" />
+                                    <div className="border-l-2 border-slate-300 h-6" />
+                                </div>
+                                <NodeCard node={node.left!} depth={depth + 1} />
                             </div>
-                            <div className="flex items-start">
-                                <div className="w-6 border-t border-slate-600/50" />
-                                <div className="border-l border-slate-600/50 h-4" />
+
+                            {/* Spacer */}
+                            <div className="w-20 border-t-2 border-slate-300 mt-[22px]" />
+
+                            {/* Right branch */}
+                            <div className="flex flex-col items-center relative">
+                                <div className="absolute -top-3 -right-8 bg-amber-50 px-2 py-0.5 rounded text-[10px] text-amber-700 font-bold border border-amber-100 tracking-wider shadow-sm z-20">
+                                    FALSE (&gt;)
+                                </div>
+                                <div className="flex items-start">
+                                    <div className="border-r-2 border-slate-300 h-6" />
+                                    <div className="w-20 border-t-2 border-slate-300" />
+                                </div>
+                                <NodeCard node={node.right!} depth={depth + 1} />
                             </div>
-                            <NodeCard node={node.left!} depth={depth + 1} />
                         </div>
-
-                        {/* Spacer */}
-                        <div className="w-6 border-t border-slate-600/50 mt-[18px]" />
-
-                        {/* Right branch */}
-                        <div className="flex flex-col items-center">
-                            <div className="text-[9px] text-amber-500/70 font-medium mb-0.5">
-                                No (&gt;)
-                            </div>
-                            <div className="flex items-start">
-                                <div className="border-r border-slate-600/50 h-4" />
-                                <div className="w-6 border-t border-slate-600/50" />
-                            </div>
-                            <NodeCard node={node.right!} depth={depth + 1} />
-                        </div>
-                    </div>
-                </div>
-            )}
+                    </motion.div>
+                )}
+            </AnimatePresence>
         </div>
     );
 }
 
 export default function DecisionTreeViz({ data }: Props) {
     return (
-        <div className="mt-6">
-            <h4 className="text-sm font-medium text-slate-400 mb-4">
-                Decision Tree Visualization
-            </h4>
-            <div className="overflow-x-auto pb-4">
-                <div className="inline-flex justify-center min-w-full">
+        <div className="mt-8 p-6 bg-slate-50/50 rounded-3xl border border-slate-100 shadow-sm relative overflow-hidden group">
+            <div className="absolute -right-10 -top-10 opacity-[0.03] pointer-events-none group-hover:opacity-5 transition-opacity">
+                <Network className="w-64 h-64 text-medical-blue" />
+            </div>
+
+            <div className="flex items-center gap-3 mb-8 relative z-10">
+                <div className="p-2.5 bg-blue-50 rounded-xl border border-blue-100 shadow-sm">
+                    <Network className="w-5 h-5 text-blue-600" />
+                </div>
+                <h4 className="text-xl font-bold text-slate-800">
+                    Decision Logic Architecture
+                </h4>
+            </div>
+
+            <div className="overflow-x-auto pb-8 pt-4 custom-scrollbar relative z-10">
+                <div className="inline-flex justify-center min-w-full px-10">
                     <NodeCard node={data} depth={0} />
                 </div>
             </div>
+
             {/* Legend */}
-            <div className="flex items-center gap-4 mt-3 text-[10px] text-slate-500">
-                <span className="flex items-center gap-1.5">
-                    <span className="w-2.5 h-2.5 rounded-sm bg-emerald-500" />
-                    Healthy (class 0)
+            <div className="flex flex-wrap items-center gap-6 mt-6 pt-6 border-t border-slate-200 text-xs font-medium text-slate-600 relative z-10 bg-white p-4 rounded-xl shadow-sm border">
+                <span className="flex items-center gap-2">
+                    <span className="w-3.5 h-3.5 rounded-sm bg-emerald-500 shadow-sm" />
+                    <span className="font-bold text-slate-700">Healthy Classification</span>
                 </span>
-                <span className="flex items-center gap-1.5">
-                    <span className="w-2.5 h-2.5 rounded-sm bg-red-500" />
-                    Disease (class 1)
+                <span className="flex items-center gap-2">
+                    <span className="w-3.5 h-3.5 rounded-sm bg-rose-500 shadow-sm" />
+                    <span className="font-bold text-slate-700">Disease Risk Identification</span>
                 </span>
-                <span className="text-slate-600">• Click nodes to expand/collapse</span>
+                <span className="px-3 py-1 rounded-full bg-sky-50 text-sky-700 border border-sky-100 font-semibold ml-auto flex items-center gap-2">
+                    <ZoomIn className="w-3.5 h-3.5" /> Interactive: Click nodes to toggle logic branches
+                </span>
             </div>
         </div>
     );

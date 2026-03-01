@@ -1,28 +1,88 @@
 @import "tailwindcss";
 
 @theme {
-  --color-primary: #0284C7;
-  --color-primary-light: #38BDF8;
-  --color-primary-dark: #0369A1;
-  --color-accent: #34D399;
-  --color-surface: #F0F9FF;
-  --color-surface-light: #E0F2FE;
-  --color-surface-lighter: #BAE6FD;
+  --color-primary: #0E6BA8;
+  /* Medical Blue */
+  --color-primary-light: #308DCD;
+  /* Lighter Blue */
+  --color-primary-dark: #094770;
+  /* Dark Blue */
+  --color-accent: #14B8A6;
+  /* Soft Teal */
+  --color-accent-light: #2DD4BF;
+  --color-accent-dark: #0D9488;
+  --color-surface: #FFFFFF;
+  /* Pure White background */
+  --color-surface-light: #F8FAFC;
+  --color-surface-lighter: #E0F2FE;
+  /* Sky Gradient */
   --color-risk-low: #22C55E;
+  /* Success Green */
   --color-risk-medium: #F59E0B;
+  /* Warning Amber */
   --color-risk-high: #EF4444;
+  /* Alert Red */
   --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
 }
 
 body {
   font-family: var(--font-sans);
-  background: #F0F9FF;
-  color: #0C4A6E;
+  background-color: #F8FAFC;
+  color: #1E293B;
+}
+
+body::before,
+body::after,
+#bg-orb-3 {
+  content: "";
+  position: fixed;
+  z-index: -1;
+  pointer-events: none;
+  filter: blur(120px);
+  border-radius: 50%;
+  animation: float-bg infinite alternate ease-in-out;
+}
+
+body::before {
+  top: -20%;
+  left: -20%;
+  width: 80vw;
+  height: 80vw;
+  background: radial-gradient(circle, rgba(160, 250, 235, 0.921) 0%, transparent 70%);
+  animation-duration: 25s;
+}
+
+body::after {
+  bottom: -20%;
+  right: -20%;
+  width: 90vw;
+  height: 90vw;
+  background: radial-gradient(circle, #95d9f2 0%, transparent 70%);
+  animation-duration: 32s;
+  animation-delay: -5s;
+}
+
+@keyframes float-bg {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+
+  33% {
+    transform: translate(15%, 10%) scale(1.1);
+  }
+
+  66% {
+    transform: translate(-10%, 20%) scale(0.9);
+  }
+
+  100% {
+    transform: translate(5%, -15%) scale(1.05);
+  }
 }
 
 /* ─── Ocean gradient text ─────────────────────────────────────────────── */
 .gradient-text {
-  background: linear-gradient(135deg, #0284C7, #0EA5E9, #06B6D4);
+  background: linear-gradient(135deg, #0E6BA8, #14B8A6);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -30,35 +90,39 @@ body {
 
 /* ─── Glass card ──────────────────────────────────────────────────────── */
 .glass-card {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(20px);
-  border: 1px solid rgba(186, 230, 253, 0.5);
-  border-radius: 16px;
-  transition: all 0.3s ease;
+  background: rgb(255, 255, 255);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(226, 232, 240, 0.8);
+  border-radius: 1.5rem;
+  /* xl */
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .glass-card:hover {
-  border-color: rgba(56, 189, 248, 0.4);
-  box-shadow: 0 4px 30px rgba(14, 165, 233, 0.08);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px -5px rgba(14, 107, 168, 0.1), 0 8px 10px -6px rgba(14, 107, 168, 0.05);
+  border-color: rgba(20, 184, 166, 0.3);
 }
 
 /* ─── Glow button ─────────────────────────────────────────────────────── */
 .glow-btn {
   position: relative;
-  background: linear-gradient(135deg, #0284C7, #0EA5E9);
+  background: linear-gradient(135deg, #0E6BA8, #308DCD);
   border-radius: 12px;
   padding: 12px 28px;
   color: white;
   font-weight: 600;
-  transition: all 0.3s ease;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   overflow: hidden;
+  box-shadow: 0 4px 14px rgba(14, 107, 168, 0.2);
 }
 
 .glow-btn::before {
   content: '';
   position: absolute;
   inset: -2px;
-  background: linear-gradient(135deg, #38BDF8, #06B6D4, #0EA5E9);
+  background: linear-gradient(135deg, #14B8A6, #0E6BA8, #308DCD);
   border-radius: 14px;
   z-index: -1;
   opacity: 0;
@@ -71,7 +135,7 @@ body {
 
 .glow-btn:hover {
   transform: translateY(-2px);
-  box-shadow: 0 10px 40px rgba(14, 165, 233, 0.25);
+  box-shadow: 0 8px 25px rgba(14, 107, 168, 0.35);
 }
 
 .glow-btn:disabled {
@@ -83,8 +147,8 @@ body {
 
 /* ─── Spinner ─────────────────────────────────────────────────────────── */
 .spinner {
-  border: 3px solid rgba(186, 230, 253, 0.4);
-  border-top: 3px solid #0EA5E9;
+  border: 3px solid rgba(20, 184, 166, 0.2);
+  border-top: 3px solid #14B8A6;
   border-radius: 50%;
   width: 24px;
   height: 24px;
@@ -131,12 +195,16 @@ body {
 
   0%,
   100% {
-    box-shadow: 0 0 20px rgba(14, 165, 233, 0.08);
+    box-shadow: 0 0 20px rgba(20, 184, 166, 0.1);
   }
 
   50% {
-    box-shadow: 0 0 40px rgba(14, 165, 233, 0.18);
+    box-shadow: 0 0 40px rgba(20, 184, 166, 0.25);
   }
+}
+
+.bg-medical-gradient {
+  background: linear-gradient(135deg, #0E6BA8 0%, #14B8A6 100%);
 }
 
 .animate-pulse-glow {

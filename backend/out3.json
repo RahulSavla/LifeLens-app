@@ -1,0 +1,20 @@
+{
+  "patient_id": null,
+  "disease_presence": 0,
+  "disease_probability": 0.2222,
+  "risk_category": "High",
+  "risk_probabilities": {
+    "High": 0.9231,
+    "Low": 0.0,
+    "Medium": 0.0769
+  },
+  "predicted_medical_expenses": 22678.84,
+  "risk_score": 68.54,
+  "risk_explanation": "Risk Score: 68.5/100 — High risk. Contributing factors: high blood pressure, elevated glucose levels, active smoking habit, low physical activity, family medical history. Immediate medical consultation is recommended.",
+  "recommendations": [
+    "Blood Pressure Management: Adopt the DASH (Dietary Approaches to Stop Hypertension) diet. Focus on reducing sodium intake below 1,500mg daily and increasing potassium-rich foods like bananas and spinach.",
+    "Pre-Diabetes Protocol: Elevated fasting glucose levels found. Strictly limit refined carbohydrates and sugary beverages. Pair carbohydrates with proteins/fats to prevent glucose spiking.",
+    "Smoking Cessation: Smoking exponentially multiplies all other health risks. Connect with a smoking cessation program and consider nicotine replacement therapies.",
+    "Activity Prescription: Transition from a sedentary routine by starting with 15 minutes of brisk walking daily. Gradually build up to the AHA-recommended 150 minutes of moderate aerobic activity per week."
+  ]
+}

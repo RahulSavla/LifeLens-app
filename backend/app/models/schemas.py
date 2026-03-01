@@ -81,6 +81,7 @@ class PredictionResponse(BaseModel):
     predicted_medical_expenses: float
     risk_score: float
     risk_explanation: str
+    recommendations: List[str]
 
 
 class LinearRegressionMetrics(BaseModel):

@@ -1,0 +1,91 @@
+|--- Age <= 0.62
+|   |--- Blood_Pressure <= 1.50
+|   |   |--- Cholesterol_Level <= 0.65
+|   |   |   |--- Age <= -0.13
+|   |   |   |   |--- BMI <= -0.10
+|   |   |   |   |   |--- class: 0
+|   |   |   |   |--- BMI >  -0.10
+|   |   |   |   |   |--- Cholesterol_Level <= -1.86
+|   |   |   |   |   |   |--- class: 0
+|   |   |   |   |   |--- Cholesterol_Level >  -1.86
+|   |   |   |   |   |   |--- truncated branch of depth 3
+|   |   |   |--- Age >  -0.13
+|   |   |   |   |--- BMI <= -0.02
+|   |   |   |   |   |--- Glucose_Level <= 0.84
+|   |   |   |   |   |   |--- truncated branch of depth 3
+|   |   |   |   |   |--- Glucose_Level >  0.84
+|   |   |   |   |   |   |--- truncated branch of depth 3
+|   |   |   |   |--- BMI >  -0.02
+|   |   |   |   |   |--- class: 0
+|   |   |--- Cholesterol_Level >  0.65
+|   |   |   |--- Age <= -1.15
+|   |   |   |   |--- class: 0
+|   |   |   |--- Age >  -1.15
+|   |   |   |   |--- Cholesterol_Level <= 0.77
+|   |   |   |   |   |--- Cholesterol_Level <= 0.74
+|   |   |   |   |   |   |--- truncated branch of depth 2
+|   |   |   |   |   |--- Cholesterol_Level >  0.74
+|   |   |   |   |   |   |--- class: 0
+|   |   |   |   |--- Cholesterol_Level >  0.77
+|   |   |   |   |   |--- Glucose_Level <= 2.12
+|   |   |   |   |   |   |--- class: 0
+|   |   |   |   |   |--- Glucose_Level >  2.12
+|   |   |   |   |   |   |--- class: 0
+|   |--- Blood_Pressure >  1.50
+|   |   |--- class: 0
+|--- Age >  0.62
+|   |--- BMI <= 1.26
+|   |   |--- BMI <= -0.10
+|   |   |   |--- Cholesterol_Level <= 2.17
+|   |   |   |   |--- BMI <= -1.09
+|   |   |   |   |   |--- Cholesterol_Level <= 1.27
+|   |   |   |   |   |   |--- truncated branch of depth 2
+|   |   |   |   |   |--- Cholesterol_Level >  1.27
+|   |   |   |   |   |   |--- class: 1
+|   |   |   |   |--- BMI >  -1.09
+|   |   |   |   |   |--- Cholesterol_Level <= 1.65
+|   |   |   |   |   |   |--- truncated branch of depth 3
+|   |   |   |   |   |--- Cholesterol_Level >  1.65
+|   |   |   |   |   |   |--- class: 0
+|   |   |   |--- Cholesterol_Level >  2.17
+|   |   |   |   |--- class: 1
+|   |   |--- BMI >  -0.10
+|   |   |   |--- Family_Medical_History <= 0.33
+|   |   |   |   |--- Blood_Pressure <= 1.77
+|   |   |   |   |   |--- Age <= 1.43
+|   |   |   |   |   |   |--- truncated branch of depth 3
+|   |   |   |   |   |--- Age >  1.43
+|   |   |   |   |   |   |--- truncated branch of depth 3
+|   |   |   |   |--- Blood_Pressure >  1.77
+|   |   |   |   |   |--- BMI <= 0.35
+|   |   |   |   |   |   |--- class: 1
+|   |   |   |   |   |--- BMI >  0.35
+|   |   |   |   |   |   |--- truncated branch of depth 3
+|   |   |   |--- Family_Medical_History >  0.33
+|   |   |   |   |--- Gender <= 1.64
+|   |   |   |   |   |--- Age <= 0.73
+|   |   |   |   |   |   |--- class: 1
+|   |   |   |   |   |--- Age >  0.73
+|   |   |   |   |   |   |--- truncated branch of depth 3
+|   |   |   |   |--- Gender >  1.64
+|   |   |   |   |   |--- class: 1
+|   |--- BMI >  1.26
+|   |   |--- Cholesterol_Level <= 2.39
+|   |   |   |--- Family_Medical_History <= 0.33
+|   |   |   |   |--- Physical_Activity_Level <= -0.16
+|   |   |   |   |   |--- class: 0
+|   |   |   |   |--- Physical_Activity_Level >  -0.16
+|   |   |   |   |   |--- BMI <= 1.37
+|   |   |   |   |   |   |--- class: 1
+|   |   |   |   |   |--- BMI >  1.37
+|   |   |   |   |   |   |--- truncated branch of depth 3
+|   |   |   |--- Family_Medical_History >  0.33
+|   |   |   |   |--- Glucose_Level <= 2.06
+|   |   |   |   |   |--- Age <= 1.03
+|   |   |   |   |   |   |--- class: 1
+|   |   |   |   |   |--- Age >  1.03
+|   |   |   |   |   |   |--- truncated branch of depth 2
+|   |   |   |   |--- Glucose_Level >  2.06
+|   |   |   |   |   |--- class: 0
+|   |   |--- Cholesterol_Level >  2.39
+|   |   |   |--- class: 1

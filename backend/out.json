@@ -1,0 +1,14 @@
+{
+  "patient_id": null,
+  "disease_presence": 0,
+  "disease_probability": 0.2222,
+  "risk_category": "High",
+  "risk_probabilities": {
+    "High": 0.9231,
+    "Low": 0.0,
+    "Medium": 0.0769
+  },
+  "predicted_medical_expenses": 22678.84,
+  "risk_score": 68.54,
+  "risk_explanation": "Risk Score: 68.5/100 — High risk. Contributing factors: high blood pressure, elevated glucose levels, active smoking habit, low physical activity, family medical history. Immediate medical consultation is recommended."
+}

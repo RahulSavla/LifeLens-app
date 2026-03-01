@@ -1,33 +1,18 @@
-# Python
-__pycache__/
-*.py[cod]
-*.egg-info/
-dist/
-build/
+node_modules
+.next
 .env
-venv/
-.venv/
-
-# Backend data
-backend/data/
-backend/models/*.pkl
-backend/models/*.json
-backend/models/*.txt
-backend/reports/
-
-# Node
-node_modules/
-.next/
-out/
-
-# OS
+.env.local
 .DS_Store
-Thumbs.db
-*.swp
-
-# IDE
-.vscode/
-.idea/
-
-# Docker
-*.log
+__pycache__
+*.pyc
+venv
+env
+.venv
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/sdks
+!.yarn/versions
+preview.json

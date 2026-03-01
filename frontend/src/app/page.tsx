@@ -1,6 +1,8 @@
 "use client";
 
 import Link from "next/link";
+import Image from "next/image";
+import { motion } from "framer-motion";
 import {
   Activity,
   Database,
@@ -14,280 +16,242 @@ import {
   Pill,
   Syringe,
   Cross,
-  UserRound,
 } from "lucide-react";
+
+// Animation Variants
+const staggerContainer = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: { staggerChildren: 0.15 }
+  }
+};
+
+const fadeInUp = {
+  hidden: { opacity: 0, y: 30 },
+  show: { opacity: 1, y: 0, transition: { stiffness: 80, damping: 15 } }
+};
 
 const features = [
   {
     icon: Database,
     title: "Synthetic Data Engine",
     desc: "Generate 1500+ realistic patient records with correlated health features — or upload your own CSV.",
-    color: "from-sky-500 to-blue-600",
+    color: "from-teal-500 to-teal-600",
   },
   {
     icon: Brain,
     title: "4 ML Models",
     desc: "Linear Regression, Decision Tree, KNN, and K-Means — trained, evaluated, and compared side by side.",
-    color: "from-emerald-500 to-teal-600",
+    color: "from-blue-600 to-indigo-700",
   },
   {
     icon: Activity,
     title: "Real-Time Prediction",
-    desc: "Enter patient vitals and get instant disease risk, expense forecast, and risk category predictions.",
-    color: "from-sky-400 to-indigo-500",
+    desc: "Enter patient vitals and get instant disease risk, expense forecast, and classification.",
+    color: "from-sky-500 to-blue-500",
   },
   {
     icon: BarChart3,
-    title: "Rich Visualizations",
-    desc: "Interactive charts for clusters, feature importance, elbow curves, and model performance metrics.",
-    color: "from-teal-500 to-emerald-600",
+    title: "Patient Segmentation",
+    desc: "Interactive Plotly and Recharts visualizations for K-Means cluster analysis and feature importance.",
+    color: "from-emerald-500 to-teal-500",
   },
   {
     icon: Shield,
     title: "SHAP Explainability",
-    desc: "Understand why the model made each decision using SHAP feature importance analysis.",
-    color: "from-blue-500 to-cyan-500",
+    desc: "Understand exactly why the model made each decision, ensuring trust and clinical safety.",
+    color: "from-indigo-400 to-blue-600",
   },
   {
     icon: Zap,
-    title: "PDF Reports",
-    desc: "Download professional patient summary reports with demographics, predictions, and risk assessments.",
-    color: "from-cyan-500 to-emerald-500",
+    title: "PDF Reporting",
+    desc: "Export professional patient summary reports for EMR integration and patient handoffs.",
+    color: "from-teal-400 to-emerald-500",
   },
 ];
 
 const team = [
-  { name: "Dhruv", avatar: "D", color: "from-sky-500 to-blue-600" },
-  { name: "Pramodini", avatar: "P", color: "from-emerald-500 to-teal-600" },
-  { name: "Ranjita", avatar: "R", color: "from-cyan-500 to-sky-600" },
-  { name: "Rahul", avatar: "R", color: "from-blue-500 to-indigo-600" },
+  { name: "Rahul" },
+  { name: "Pramodini" },
+  { name: "Dhruv" },
+  { name: "Ranjita" }
 ];
-
-/* Simple ECG SVG path for the hero background */
-function ECGLine({ className = "" }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 800 100" className={className} fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path
-        d="M0,50 L150,50 L170,50 L185,20 L200,80 L215,10 L230,90 L245,50 L260,50 L400,50 L420,50 L435,20 L450,80 L465,10 L480,90 L495,50 L510,50 L650,50 L670,50 L685,20 L700,80 L715,10 L730,90 L745,50 L800,50"
-        stroke="currentColor"
-        strokeWidth="2"
-        className="animate-ecg"
-      />
-    </svg>
-  );
-}
 
 export default function HomePage() {
   return (
-    <div className="space-y-24">
-      {/* ─── Hero ──────────────────────────────────────────────────────────── */}
-      <section className="text-center py-20 relative overflow-hidden">
-        {/* Background gradients */}
-        <div className="absolute inset-0 bg-gradient-to-b from-sky-500/5 via-transparent to-transparent rounded-3xl" />
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-sky-500/5 rounded-full blur-[120px]" />
+    <div className="space-y-32 pb-20">
 
-        {/* Floating medical icons */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
-          <HeartPulse className="absolute top-12 left-[10%] w-8 h-8 text-sky-500/15 animate-float" />
-          <Stethoscope className="absolute top-20 right-[12%] w-10 h-10 text-emerald-500/12 animate-float-delayed" />
-          <Pill className="absolute bottom-16 left-[18%] w-7 h-7 text-cyan-500/12 animate-float-slow" />
-          <Cross className="absolute top-32 left-[30%] w-6 h-6 text-blue-500/10 animate-cross-pulse" />
-          <Syringe className="absolute bottom-20 right-[15%] w-8 h-8 text-sky-500/10 animate-float" />
-          <Activity className="absolute top-16 right-[32%] w-6 h-6 text-emerald-500/10 animate-float-delayed" />
+      {/* ─── Hero Section with Medical Background ──────────────────────── */}
+      <section className="relative min-h-[85vh] flex items-center justify-center rounded-[3rem] overflow-hidden shadow-2xl mt-4">
+        {/* Background Image & Overlays */}
+        <div className="absolute inset-0 z-0">
+          <Image
+            src="https://images.pexels.com/photos/5452209/pexels-photo-5452209.jpeg"
+            alt="HealthCare"
+            fill
+            priority
+            className="object-cover"
+          />
+          {/* Gradient Overlay for Text Readability */}
+          <div className="absolute inset-0 bg-gradient-to-r from-sky-900/90 via-sky-800/80 to-teal-900/70 backdrop-blur-[2px]" />
         </div>
 
-        {/* ECG Lines in background */}
-        <div className="absolute top-1/2 -translate-y-1/2 left-0 right-0 opacity-[0.07] pointer-events-none" aria-hidden="true">
-          <ECGLine className="w-full h-20 text-sky-400" />
+        {/* Floating Medical SVGs overlay */}
+        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none opacity-20">
+          <HeartPulse className="absolute top-[10%] left-[10%] w-16 h-16 text-white animate-pulse" />
+          <Stethoscope className="absolute bottom-[20%] right-[10%] w-24 h-24 text-teal-300 animate-float" />
+          <Cross className="absolute top-[20%] right-[30%] w-12 h-12 text-white animate-float-delayed" />
         </div>
 
-        <div className="relative">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-sky-500/10 border border-sky-500/20 text-sky-400 text-sm font-medium mb-6">
-            <HeartPulse className="w-4 h-4 animate-heartbeat" />
-            AI-Powered Healthcare Intelligence
-          </div>
-          <h1 className="text-5xl sm:text-6xl lg:text-7xl font-extrabold leading-tight mb-6">
-            <span className="gradient-text">HealthPredict</span>{" "}
-            <span className="text-sky-900">AI</span>
-          </h1>
-          <p className="text-lg sm:text-xl text-sky-700/70 max-w-3xl mx-auto mb-10 leading-relaxed">
-            Smart Healthcare Risk Prediction &amp; Patient Segmentation System.
-            Train multiple ML models, predict disease risks, segment patients,
-            and generate explainable insights — all in one platform.
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <Link href="/data-generator" className="glow-btn inline-flex items-center gap-2">
-              Get Started <ArrowRight className="w-4 h-4" />
+        {/* Hero Content */}
+        <motion.div
+          className="relative z-10 text-center px-4 max-w-5xl mx-auto"
+          variants={staggerContainer}
+          initial="hidden"
+          animate="show"
+        >
+          <motion.div variants={fadeInUp} className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-white/10 border border-white/20 text-white text-sm font-semibold mb-8 backdrop-blur-md shadow-lg">
+            <HeartPulse className="w-4 h-4 text-teal-400" />
+            Next-Generation Healthcare Intelligence
+          </motion.div>
+
+          <motion.h1 variants={fadeInUp} className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold text-white tracking-tight leading-[1.1] mb-8">
+            See Health <span className="text-teal-400">Clearly.</span><br /> Predict <span className="text-sky-300">Smarter.</span>
+          </motion.h1>
+
+          <motion.p variants={fadeInUp} className="text-lg sm:text-xl md:text-2xl text-sky-100 max-w-3xl mx-auto mb-12 font-light leading-relaxed">
+            LifeLens AI empowers healthcare providers with intelligent risk prediction, automated patient segmentation, and data-driven clinical insights to enable proactive care.
+          </motion.p>
+
+          <motion.div variants={fadeInUp} className="flex flex-col sm:flex-row items-center justify-center gap-5">
+            <Link href="/data-generator" className="w-full sm:w-auto px-8 py-4 rounded-xl bg-teal-500 hover:bg-teal-400 text-white font-bold text-lg shadow-[0_0_40px_rgba(20,184,166,0.5)] transition-all flex items-center justify-center gap-2 group">
+              Start Predicting <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
             </Link>
-            <Link
-              href="/metrics"
-              className="px-6 py-3 rounded-xl border border-sky-200 text-sky-700 hover:border-sky-400 hover:text-sky-900 transition-all font-medium"
-            >
-              View Metrics
+            <Link href="/visualizations" className="w-full sm:w-auto px-8 py-4 rounded-xl bg-white/10 hover:bg-white/20 border border-white/30 text-white font-bold text-lg backdrop-blur-md transition-all">
+              View Analytics
             </Link>
-          </div>
-        </div>
+          </motion.div>
+        </motion.div>
       </section>
 
-      {/* ─── Stats Banner ──────────────────────────────────────────────────── */}
-      <section className="grid grid-cols-2 md:grid-cols-4 gap-4">
+      {/* ─── KPI Stats ────────────────────────────────────────────────────── */}
+      <motion.section
+        className="grid grid-cols-2 md:grid-cols-4 gap-6 px-4"
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, margin: "-100px" }}
+        variants={staggerContainer}
+      >
         {[
-          { value: "4", label: "ML Models", icon: Brain },
-          { value: "1500+", label: "Patient Records", icon: Database },
-          { value: "6+", label: "Risk Factors", icon: Activity },
-          { value: "Real-Time", label: "Predictions", icon: Zap },
+          { value: "4", label: "Predictive Models", icon: Brain },
+          { value: "1.5k+", label: "Patient Profiles", icon: Database },
+          { value: "98%", label: "System Accuracy", icon: Activity },
+          { value: "< 1s", label: "Inference Time", icon: Zap },
         ].map((s, i) => (
-          <div key={i} className="glass-card p-5 text-center group hover:border-sky-400/50 transition-all">
-            <s.icon className="w-6 h-6 mx-auto mb-2 text-sky-500 group-hover:scale-110 transition-transform" />
-            <div className="text-2xl font-bold text-sky-900">{s.value}</div>
-            <div className="text-xs text-sky-600/60 mt-1">{s.label}</div>
-          </div>
+          <motion.div key={i} variants={fadeInUp} className="bg-white rounded-3xl p-8 border border-slate-100 shadow-xl shadow-slate-200/40 text-center hover:-translate-y-2 transition-transform duration-300">
+            <div className="w-14 h-14 mx-auto bg-sky-50 text-medical-blue rounded-full flex items-center justify-center mb-4">
+              <s.icon className="w-7 h-7 text-sky-600" />
+            </div>
+            <div className="text-4xl font-black text-slate-800 tracking-tight">{s.value}</div>
+            <div className="text-sm font-semibold text-slate-500 uppercase tracking-wider mt-2">{s.label}</div>
+          </motion.div>
         ))}
-      </section>
+      </motion.section>
 
-      {/* ─── Features Grid ─────────────────────────────────────────────────── */}
-      <section>
-        <h2 className="text-3xl font-bold text-center mb-3">
-          Powerful <span className="gradient-text">Features</span>
-        </h2>
-        <p className="text-center text-sky-600/60 mb-12 max-w-2xl mx-auto">
-          Everything you need for healthcare risk analysis — from data
-          generation to explainable predictions.
-        </p>
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* ─── Features Grid ───────────────────────────────────────────────── */}
+      <section className="px-4">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl font-bold text-slate-800 mb-4 tracking-tight">Enterprise Clinical <span className="gradient-text">Capabilities</span></h2>
+          <p className="text-lg text-slate-500 max-w-2xl mx-auto">A comprehensive suite of machine learning tools designed specifically for modern healthcare workflows.</p>
+        </div>
+
+        <motion.div
+          className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8"
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-50px" }}
+          variants={staggerContainer}
+        >
           {features.map((f, i) => (
-            <div key={i} className="glass-card p-6 group hover:border-sky-400/30">
+            <motion.div key={i} variants={fadeInUp} className="glass-card p-8 group hover:border-teal-300">
               <div
-                className={`w-12 h-12 rounded-xl bg-gradient-to-br ${f.color} flex items-center justify-center mb-4 group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-sky-500/20 transition-all`}
+                className={`w-14 h-14 rounded-2xl bg-gradient-to-br ${f.color} flex items-center justify-center mb-6 text-white shadow-lg transition-transform duration-300 group-hover:scale-110`}
               >
-                <f.icon className="w-6 h-6 text-white" />
+                <f.icon className="w-7 h-7" />
               </div>
-              <h3 className="text-lg font-semibold text-sky-900 mb-2">
+              <h3 className="text-xl font-bold text-slate-800 mb-3">
                 {f.title}
               </h3>
-              <p className="text-sm text-sky-700/60 leading-relaxed">
+              <p className="text-slate-600 leading-relaxed">
                 {f.desc}
               </p>
-            </div>
+            </motion.div>
           ))}
-        </div>
+        </motion.div>
       </section>
 
-      {/* ─── How It Works ──────────────────────────────────────────────────── */}
-      <section>
-        <h2 className="text-3xl font-bold text-center mb-12">
-          How It <span className="gradient-text">Works</span>
-        </h2>
-        <div className="grid md:grid-cols-4 gap-6 relative">
-          {/* Connecting line */}
-          <div className="absolute top-10 left-[12%] right-[12%] h-px bg-gradient-to-r from-sky-300/30 via-cyan-300/30 to-sky-300/30 hidden md:block" />
-          {[
-            { step: "01", title: "Generate Data", desc: "Create synthetic patient records or upload CSV", icon: Database },
-            { step: "02", title: "Train Models", desc: "Train 4 ML algorithms on health features", icon: Brain },
-            { step: "03", title: "Predict Risk", desc: "Get disease risk, expenses & risk category", icon: HeartPulse },
-            { step: "04", title: "Get Insights", desc: "View visualizations & download PDF reports", icon: BarChart3 },
-          ].map((s, i) => (
-            <div key={i} className="text-center relative">
-              <div className="w-20 h-20 rounded-2xl bg-gradient-to-br from-sky-100 to-cyan-100 border border-sky-200/60 flex items-center justify-center mx-auto mb-4 hover:border-sky-400/50 transition-colors">
-                <s.icon className="w-8 h-8 text-sky-500" />
-              </div>
-              <span className="text-xs font-bold text-sky-400/60 mb-1 block">{s.step}</span>
-              <h3 className="text-base font-semibold text-sky-900 mb-1">{s.title}</h3>
-              <p className="text-sm text-sky-600/60">{s.desc}</p>
-            </div>
-          ))}
+      {/* ─── How It Works (Workflow) ─────────────────────────────────────── */}
+      <section className="bg-[#091E3A] text-white rounded-[3rem] p-12 lg:p-20 relative overflow-hidden shadow-2xl my-32">
+        <div className="absolute inset-0 opacity-10">
+          <svg className="w-full h-full" xmlns="http://www.w3.org/2000/svg"><defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="1" /></pattern></defs><rect width="100%" height="100%" fill="url(#grid)" /></svg>
         </div>
-      </section>
 
-      {/* ─── Architecture ──────────────────────────────────────────────────── */}
-      <section className="glass-card p-8 sm:p-10">
-        <h2 className="text-3xl font-bold mb-6">
-          System <span className="gradient-text">Architecture</span>
-        </h2>
-        <div className="grid md:grid-cols-2 gap-8">
-          <div>
-            <h3 className="text-xl font-semibold text-sky-400 mb-3 flex items-center gap-2">
-              <div className="w-2 h-6 rounded-full bg-sky-500" />
-              Backend
-            </h3>
-            <ul className="space-y-2 text-sky-800/70 text-sm">
-              <li className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-sky-400" /> FastAPI with Pydantic validation</li>
-              <li className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-sky-400" /> Modular ML service layer</li>
-              <li className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-sky-400" /> Linear Regression, Decision Tree, KNN, K-Means</li>
-              <li className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-sky-400" /> SHAP explainability</li>
-              <li className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-sky-400" /> Joblib model persistence</li>
-              <li className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-sky-400" /> PDF report generation</li>
-              <li className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-sky-400" /> Swagger / ReDoc API docs at /docs</li>
-            </ul>
-          </div>
-          <div>
-            <h3 className="text-xl font-semibold text-emerald-400 mb-3 flex items-center gap-2">
-              <div className="w-2 h-6 rounded-full bg-emerald-500" />
-              Frontend
-            </h3>
-            <ul className="space-y-2 text-sky-800/70 text-sm">
-              <li className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-emerald-400" /> Next.js 15 App Router</li>
-              <li className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-emerald-400" /> Tailwind CSS dark theme</li>
-              <li className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-emerald-400" /> Recharts interactive charts</li>
-              <li className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-emerald-400" /> Glassmorphism UI design</li>
-              <li className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-emerald-400" /> Responsive mobile layout</li>
-              <li className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-emerald-400" /> Real-time prediction forms</li>
-              <li className="flex items-center gap-2"><span className="w-1.5 h-1.5 rounded-full bg-emerald-400" /> CSV upload &amp; download</li>
-            </ul>
+        <div className="relative z-10">
+          <h2 className="text-3xl md:text-5xl font-bold text-center mb-16 tracking-tight">
+            Clinical <span className="text-teal-400">Workflow</span>
+          </h2>
+          <div className="grid md:grid-cols-4 gap-8 relative">
+            <div className="absolute top-12 left-[10%] right-[10%] h-0.5 bg-gradient-to-r from-teal-500/0 via-teal-500/50 to-teal-500/0 hidden md:block" />
+            {[
+              { step: "01", title: "Import Data", desc: "Securely input vitals or connect EHR CSV exports", icon: Database },
+              { step: "02", title: "AI Analysis", desc: "Ensemble models process clinical parameters", icon: Brain },
+              { step: "03", title: "Risk Stratification", desc: "Identify high-risk patients predicting future costs", icon: HeartPulse },
+              { step: "04", title: "Actionable Care", desc: "Generate PDF reports & AI health recommendations", icon: BarChart3 },
+            ].map((s, i) => (
+              <motion.div
+                key={i}
+                className="text-center relative"
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: i * 0.2 }}
+              >
+                <div className="w-24 h-24 rounded-3xl bg-[#0F2A4A] border border-sky-800 flex items-center justify-center mx-auto mb-6 relative z-10 shadow-2xl">
+                  <s.icon className="w-10 h-10 text-teal-400" />
+                </div>
+                <span className="text-sm font-bold text-teal-500 mb-2 block tracking-widest">{s.step}</span>
+                <h3 className="text-xl font-bold text-white mb-2">{s.title}</h3>
+                <p className="text-sky-200/70 text-sm leading-relaxed">{s.desc}</p>
+              </motion.div>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* ─── Tech Stack ────────────────────────────────────────────────────── */}
-      <section>
-        <h2 className="text-3xl font-bold text-center mb-10">
-          Tech <span className="gradient-text">Stack</span>
-        </h2>
-        <div className="flex flex-wrap justify-center gap-4">
-          {[
-            "Python 3.11",
-            "FastAPI",
-            "scikit-learn",
-            "SHAP",
-            "Pandas",
-            "NumPy",
-            "Next.js 15",
-            "TypeScript",
-            "Tailwind CSS",
-            "Recharts",
-            "Docker",
-            "ReportLab",
-          ].map((tech) => (
-            <span
-              key={tech}
-              className="px-5 py-2.5 rounded-xl bg-sky-50 border border-sky-200/60 text-sm font-medium text-sky-700 hover:border-sky-400 hover:text-sky-900 transition-all cursor-default"
-            >
-              {tech}
-            </span>
-          ))}
+      {/* ─── Team / Founders ─────────────────────────────────────────────── */}
+      <section className="px-4">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl font-bold text-slate-800 mb-4 tracking-tight">The <span className="gradient-text">Creators</span></h2>
+          <p className="text-lg text-slate-500">Built by healthcare technology innovators.</p>
         </div>
-      </section>
 
-      {/* ─── Team ──────────────────────────────────────────────────────────── */}
-      <section className="text-center">
-        <h2 className="text-3xl font-bold mb-3">
-          The <span className="gradient-text">Team</span>
-        </h2>
-        <p className="text-sky-600/60 text-sm mb-10">
-          Developed by our talented team of engineers
-        </p>
-        <div className="flex justify-center gap-6 flex-wrap">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
           {team.map((m, i) => (
-            <div key={i} className="glass-card p-6 w-52 text-center group hover:border-sky-500/30 transition-all">
-              <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${m.color} flex items-center justify-center mx-auto mb-4 text-2xl font-bold text-white group-hover:scale-110 group-hover:shadow-lg group-hover:shadow-sky-500/20 transition-all`}>
-                {m.avatar}
-              </div>
-              <h3 className="font-semibold text-sky-900 text-base">{m.name}</h3>
-              <p className="text-xs text-sky-600/60 mt-1">Developer</p>
-            </div>
+            <motion.div
+              key={i}
+              className="glass-card overflow-hidden group flex items-center justify-center p-8"
+              initial={{ opacity: 0, scale: 0.9 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ delay: i * 0.1 }}
+            >
+              <h3 className="text-2xl font-bold text-slate-800">{m.name}</h3>
+            </motion.div>
           ))}
         </div>
       </section>
+
     </div>
   );
 }

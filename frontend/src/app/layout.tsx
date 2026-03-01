@@ -2,10 +2,12 @@ import type { Metadata } from "next";
 import "./globals.css";
 import Navbar from "@/components/Navbar";
 
+import { Toaster } from "react-hot-toast";
+
 export const metadata: Metadata = {
-  title: "HealthPredict AI — Smart Healthcare Risk Prediction",
+  title: "LifeLens AI — See Health Clearly. Predict Smarter.",
   description:
-    "Production-grade Smart Healthcare Risk Prediction & Patient Segmentation System powered by Machine Learning.",
+    "LifeLens AI empowers healthcare providers with intelligent risk prediction and patient segmentation tools to enable proactive care.",
 };
 
 export default function RootLayout({
@@ -21,17 +23,21 @@ export default function RootLayout({
           rel="stylesheet"
         />
       </head>
-      <body className="min-h-screen bg-[#F0F9FF] text-sky-900 antialiased">
+      <body className="min-h-screen bg-white text-slate-800 antialiased selection:bg-teal-500/30">
+        <Toaster position="top-right" toastOptions={{ className: 'glass-card text-sm', duration: 3000 }} />
         <Navbar />
         <main className="pt-20 pb-12 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
           {children}
         </main>
         {/* Footer */}
-        <footer className="border-t border-sky-200/50 py-8 px-4 text-center text-sm text-sky-500/60">
-          <p>
-            © 2026 HealthPredict AI — Smart Healthcare Risk Prediction System.
-            Developed by Dhruv, Pramodini, Ranjita &amp; Rahul.
-          </p>
+        <footer className="border-t border-slate-100 bg-[#F8FAFC] py-12 px-4 mt-12">
+          <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-slate-500">
+            <div>
+              <p className="font-semibold text-slate-700 mb-1">LifeLens AI</p>
+              <p>© 2026 Developed by Dhruv, Pramodini, Ranjita &amp; Rahul.</p>
+            </div>
+            <p className="text-slate-400">Powered by Next.js &amp; FastAPI</p>
+          </div>
         </footer>
       </body>
     </html>

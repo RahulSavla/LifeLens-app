@@ -256,6 +256,9 @@ def predict_patient(patient_dict: Dict) -> Dict[str, Any]:
 
     # Risk Score
     risk_score = _compute_risk_score(patient_dict)
+    
+    # AI Recommendations
+    recommendations = _generate_health_recommendations(patient_dict, risk_score, disease_pred)
 
     return {
         "disease_presence": disease_pred,
@@ -265,6 +268,7 @@ def predict_patient(patient_dict: Dict) -> Dict[str, Any]:
         "predicted_medical_expenses": round(expenses, 2),
         "risk_score": round(risk_score, 2),
         "risk_explanation": _generate_risk_explanation(patient_dict, risk_score, risk_label),
+        "recommendations": recommendations,
     }
 
 
@@ -505,6 +509,53 @@ def _generate_risk_explanation(patient: Dict, score: float, category: str) -> st
         explanation += "Continue maintaining a healthy lifestyle."
 
     return explanation
+
+
+def _generate_health_recommendations(patient: Dict, score: float, disease_presence: int) -> List[str]:
+    """Generate personalized, AI-like medical recommendations based on inputs and risks."""
+    recs = []
+    
+    # High-level urgent
+    if disease_presence == 1:
+        recs.append("Immediate Medical Consultation: Early indicators of disease presence detected. Please schedule a comprehensive check-up with your primary care provider this week to confirm diagnostics.")
+    elif score > 70:
+        recs.append("Preventative Care Visit: Your overall risk profile is highly elevated. A preventative health screening is strongly recommended within the next 30 days.")
+        
+    # Categorical vitals
+    bp = patient.get("Blood_Pressure", 120)
+    if bp > 140:
+        recs.append("Blood Pressure Management: Adopt the DASH (Dietary Approaches to Stop Hypertension) diet. Focus on reducing sodium intake below 1,500mg daily and increasing potassium-rich foods like bananas and spinach.")
+    elif bp > 120:
+        recs.append("Blood Pressure Monitoring: Your blood pressure is slightly elevated. Monitor it weekly and minimize processed foods to prevent hypertension progression.")
+        
+    bmi = patient.get("BMI", 25)
+    if bmi > 30:
+        recs.append("Weight Management: Consult a dietitian for a structured caloric deficit plan. Aiming for a gradual 5-10% weight reduction can significantly lower cardiovascular and metabolic risks.")
+    elif bmi < 18.5:
+        recs.append("Nutritional Support: Your BMI indicates you are underweight. Consider consulting a nutritionist to build lean muscle mass through nutrient-dense meals and protein integration.")
+        
+    chol = patient.get("Cholesterol_Level", 200)
+    if chol > 240:
+        recs.append("Lipid Control: High cholesterol detected. Limit saturated fats (red meat, full-fat dairy) and eliminate trans fats. Increase soluble fiber intake (oats, beans) to naturally lower LDL markers.")
+        
+    glu = patient.get("Glucose_Level", 100)
+    if glu > 140:
+        recs.append("Pre-Diabetes Protocol: Elevated fasting glucose levels found. Strictly limit refined carbohydrates and sugary beverages. Pair carbohydrates with proteins/fats to prevent glucose spiking.")
+        
+    # Lifestyle
+    if patient.get("Smoking_Habit"):
+        recs.append("Smoking Cessation: Smoking exponentially multiplies all other health risks. Connect with a smoking cessation program and consider nicotine replacement therapies.")
+        
+    activity = patient.get("Physical_Activity_Level", "Medium")
+    if activity == "Low":
+        recs.append("Activity Prescription: Transition from a sedentary routine by starting with 15 minutes of brisk walking daily. Gradually build up to the AHA-recommended 150 minutes of moderate aerobic activity per week.")
+        
+    # General baseline if healthy
+    if len(recs) < 3:
+        recs.append("Routine Maintenance: Maintain your excellent vitals by continuing annual blood panels and continuing a balanced Mediterranean-style diet.")
+        recs.append("Stress & Sleep: Ensure 7-9 hours of restorative sleep per night and integrate cortisol-lowering practices like mindfulness or yoga.")
+        
+    return recs[:5]  # Return top 5 most relevant recommendations
 
 
 # ── Persistence ──────────────────────────────────────────────────────────────
