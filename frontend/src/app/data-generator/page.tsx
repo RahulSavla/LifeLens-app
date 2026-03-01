@@ -39,7 +39,7 @@ export default function DataGeneratorPage() {
         setLoading(true);
         const toastId = toast.loading("Synthesizing clinical data...");
         try {
-            const res = await generateData(numRecords, seed);
+            const res = await generateData(numRecords, seed) as { message?: string };
             toast.success(res.message || "Data generated successfully!", { id: toastId });
             try {
                 const prev = await previewData(10);
