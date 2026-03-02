@@ -121,11 +121,11 @@ function NodeCard({ node, depth }: { node: TreeNode; depth: number }) {
                         {/* Horizontal connector + branch labels */}
                         <div className="flex items-start">
                             {/* Left branch */}
-                            <div className="flex flex-col items-center relative">
-                                <div className="absolute -top-3 -left-8 bg-sky-50 px-2 py-0.5 rounded text-[10px] text-sky-700 font-bold border border-sky-100 tracking-wider shadow-sm z-20">
-                                    TRUE (≤)
-                                </div>
-                                <div className="flex items-start">
+                            <div className="flex flex-col items-center">
+                                <div className="flex items-start relative">
+                                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-sky-50 px-2 py-0.5 rounded text-[10px] text-sky-700 font-bold border border-sky-100 tracking-wider shadow-sm z-20 whitespace-nowrap">
+                                        TRUE (≤)
+                                    </div>
                                     <div className="w-20 border-t-2 border-slate-300" />
                                     <div className="border-l-2 border-slate-300 h-6" />
                                 </div>
@@ -133,14 +133,14 @@ function NodeCard({ node, depth }: { node: TreeNode; depth: number }) {
                             </div>
 
                             {/* Spacer */}
-                            <div className="w-20 border-t-2 border-slate-300 mt-[22px]" />
+                            <div className="w-20 border-t-2 border-slate-300 mt-[0px] invisible" />
 
                             {/* Right branch */}
-                            <div className="flex flex-col items-center relative">
-                                <div className="absolute -top-3 -right-8 bg-amber-50 px-2 py-0.5 rounded text-[10px] text-amber-700 font-bold border border-amber-100 tracking-wider shadow-sm z-20">
-                                    FALSE (&gt;)
-                                </div>
-                                <div className="flex items-start">
+                            <div className="flex flex-col items-center">
+                                <div className="flex items-start relative">
+                                    <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-amber-50 px-2 py-0.5 rounded text-[10px] text-amber-700 font-bold border border-amber-100 tracking-wider shadow-sm z-20 whitespace-nowrap">
+                                        FALSE (&gt;)
+                                    </div>
                                     <div className="border-r-2 border-slate-300 h-6" />
                                     <div className="w-20 border-t-2 border-slate-300" />
                                 </div>
